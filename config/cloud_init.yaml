@@ -1,0 +1,31 @@
+#cloud-config
+hostname: ${host_name}
+package_update: true
+#packages:
+#  - vim
+#  - git
+ssh_pwauth: true
+disable_root: false
+chpasswd:
+  list: |
+     root:password
+  expire: false
+users:
+  - name: ubuntu
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: users, admin
+    home: /home/ubuntu
+    shell: /bin/bash
+    lock_passwd: false
+    ssh-authorized-keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCUqRcOhXtFlc2cK9AemsJVlpE0CUSn8uORvSFnYhRBOToDB+XWc0QhJn14zdz0PkXfbZFt1OlgLz/gzne2PgHY5/E2WimKP+jlp893uatP0m6LDrJ8/tzLy9aKX/5x/vX1LMLuoYzg20/s6bf16enmeC8q3FklBsPiUDsGIhpK1pjiB+Lu4mwXdd+LEiyTaSEq0CIeY4BQPBukBai8gRh4qobX7MtiBa9+y0yzrGmDJbAzdLUnfUE0nH8+Yx1JLDeeK+PhKAKUyNBAICiwKIjyTw0HFumA4HtLjTN4GxcnDV84HjHnC/VlawXtUv/6AJ3mNwpStJIsYMrMv50bpOhJKOPlPFXGH7DVg9eQ8DwgAnQwaanrsoD7jIwcUbyhzWQytFOxJKSgoYyzrvrMKzaW+G7ZAcb0ld15I3aVfWxLLOg7UxMr5j/vXTG6wVSHfjK/NqMF0FjixOqAV44poWEK1w68btbM1a+Zh/q2XJes7M9G4R1sQw5wnkfOVltgC4lbwiPB2s7FOEduBHV8Oh7I+Tq5sls7xhZvC+yp5ohOu4sX0+aqmWg91a3NxU1CXrEfwz2pPXSDkxxSG6YRGbwZcIwfqtx5x4ckblux/Hf0TZLZJf47RtlbWG1TtvlL3OgY/321jzjMkzr7sOPTT+EM86kVt7jfeI97Ma3kj+SNLQ== abasit@dev
+runcmd:
+  - netplan apply
+  #- [ sed, -i, 's/PasswordAuthentication no/PasswordAuthentication yes/g', /etc/ssh/sshd_config ]
+  #- systemctl restart sshd
+  #- [ apt, update ]
+  #- [ apt, install, -y, cloud-init ]
+  #- [ cloud-init, init ]
+  #- [ cloud-init, modules, --mode, config ]
+  #- [ cloud-init, modules, --mode, final ]
+final_message: "The system is finally up, after $UPTIME seconds"
