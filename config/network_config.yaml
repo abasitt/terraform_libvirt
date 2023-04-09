@@ -10,7 +10,7 @@ ethernets:
             - 8.8.8.8
         routes: 
           - to: default
-            via: 192.168.122.1
+            via: 192.168.40.1
         match:
           name: en*
         set-name: ${interface_name}

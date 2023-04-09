@@ -29,11 +29,11 @@ variable "vcpu" {
 
 variable "ipaddresses" {
   type = list
-  default = ["192.168.122.11", "192.168.122.22", "192.168.122.33"]
+  default = ["192.168.40.61", "192.168.40.62", "192.168.40.63"]
 }
 
 variable "iso_path" {
-  description = "Path to the Ubuntu 20.04 ISO file"
+  description = "Path to the Ubuntu 22.04 ISO file"
   type        = string
   default     = "/home/abasit/downloads/cloud-images/ubuntu-22-cloud-image/ubuntu22-disk.qcow2"
 }
