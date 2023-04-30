@@ -1,3 +1,10 @@
+variable "uris" {
+  type = list(string)
+  default = [
+    "qemu+ssh://abasit@192.168.10.5/system"
+  ]
+}
+
 variable "hosts_count" {
   description = "Number of the VMs"
   type        = number

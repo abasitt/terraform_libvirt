@@ -1,4 +1,3 @@
-
 #since default pool is already available at /var/lib/libvirt/images, we will skip pool creation part
 #resource "libvirt_pool" "ubuntu" {
 #  name = "ubuntu"

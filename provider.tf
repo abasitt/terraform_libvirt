@@ -10,5 +10,6 @@ terraform {
 
 # instance the provider
 provider "libvirt" {
-  uri = "qemu+ssh://abasit@192.168.10.5/system"
+  count = length(var.uris)
+  uri   = var.uris[count.index]
 }
