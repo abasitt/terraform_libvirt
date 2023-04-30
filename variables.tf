@@ -53,3 +53,9 @@ variable "hostnames" {
   type = list
   default = ["k8s-m1", "k8s-w1", "k8s-w2"]
 }
+
+variable "private_key" {
+  type        = "string"
+  default     = "~/.ssh/id_rsa"
+  description = "The path to your private key"
+}
