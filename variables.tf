@@ -1,11 +1,4 @@
-variable "uris" {
-  type = list(string)
-  default = [
-    "qemu+ssh://abasit@192.168.10.5/system"
-  ]
-}
-
-variable "hosts_count" {
+variable "vms_count" {
   description = "Number of the VMs"
   type        = number
   default     = 1
@@ -62,7 +55,7 @@ variable "hostnames" {
 }
 
 variable "private_key" {
-  type        = "string"
+  type        = string
   default     = "~/.ssh/id_rsa"
   description = "The path to your private key"
 }

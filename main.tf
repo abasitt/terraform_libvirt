@@ -34,7 +34,7 @@ data "template_file" "network_config" {
 }
 
 resource "libvirt_cloudinit_disk" "commoninit" {
-  count = length(var.hostnames)
+  count          = length(var.hostnames)
   name           = "commoninit-${var.hostnames[count.index]}.iso"
   user_data      = data.template_file.user_data[count.index].rendered
   network_config = data.template_file.network_config[count.index].rendered
@@ -42,7 +42,7 @@ resource "libvirt_cloudinit_disk" "commoninit" {
 
 # Create the machine
 resource "libvirt_domain" "domain-ubuntu" {
-  count  = var.hosts_count
+  count  = var.vms_count
   name   = var.hostnames[count.index]
   memory = var.memory
   vcpu   = var.vcpu

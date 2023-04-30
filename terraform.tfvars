@@ -1,1 +1,1 @@
-hosts_count=3
+vms_count=3

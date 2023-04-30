@@ -8,8 +8,18 @@ terraform {
   }
 }
 
-# instance the provider
+# Define providers
 provider "libvirt" {
-  count = length(var.uris)
-  uri   = var.uris[count.index]
+#  alias = "host1"
+  uri   = "qemu+ssh://abasit@192.168.10.5/system"
 }
+
+#provider "libvirt" {
+#  alias = "host2"
+#  uri   = "qemu+ssh://user@host2/system"
+#}
+#
+#provider "libvirt" {
+#  alias = "host3"
+#  uri   = "qemu+ssh://user@host3/system"
+#}
