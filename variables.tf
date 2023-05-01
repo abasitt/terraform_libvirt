@@ -27,7 +27,7 @@ variable "vcpu" {
   default     = 2
 }
 
-variable "ipaddresses" {
+variable "ipv4addresses" {
   type = list
   default = ["192.168.40.61", "192.168.40.62", "192.168.40.63"]
 }

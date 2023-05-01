@@ -25,10 +25,10 @@ data "template_file" "user_data" {
 }
 
 data "template_file" "network_config" {
-  count    = length(var.ipaddresses)
+  count    = length(var.ipv4addresses)
   template = file("${path.module}/config/network_config.yaml")
   vars = {
-    ip_addr = var.ipaddresses[count.index]
+    ipv4_addr = var.ipaddresses[count.index]
     interface_name = var.interface
   }
 }
