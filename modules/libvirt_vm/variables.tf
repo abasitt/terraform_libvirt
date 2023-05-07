@@ -49,6 +49,12 @@ variable "iso_path" {
   default     = "/home/abasit/downloads/cloud-images/ubuntu-22-cloud-image/ubuntu22-disk.qcow2"
 }
 
+variable "disk_size" {
+  description = "Path to the Ubuntu 22.04 ISO file"
+  type        = number
+  default     = 20
+}
+
 #
 #variable "macs" {
 #  type = list

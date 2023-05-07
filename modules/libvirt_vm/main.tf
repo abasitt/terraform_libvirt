@@ -7,14 +7,20 @@
 
 # We fetch the latest ubuntu release image from their mirrors
 # use the default pool, already provisioned
-resource "libvirt_volume" "ubuntu-qcow2" {
+resource "libvirt_volume" "base-qcow2" {
   count  = var.vms_count
-  name   = "${var.hostnames[count.index]}.qcow2"
+  name   = "${var.hostnames[count.index]}_base.qcow2"
   pool   = var.pool_name
   source = var.iso_path
   format = var.volume_format
 }
 
+resource "libvirt_volume" "ubuntu-qcow2" {
+  count           = var.vms_count
+  name            = "${var.hostnames[count.index]}_resized.qcow2"
+  base_volume_id  = libvirt_volume.base-qcow2[count.index].id
+  size            = var.disk_size*1073741824
+}
 
 data "template_file" "user_data" {
   count    = var.vms_count

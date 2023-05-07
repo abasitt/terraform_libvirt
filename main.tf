@@ -25,6 +25,7 @@ variable "k8s_common" {
   default = {
     memory = 2048
     vcpu = 2
+    disk_size = 30
     bridgename = "br40"
     pool_name = "default"
     volume_format = "qcow2"
@@ -56,6 +57,7 @@ module "k8s_vm_m1" {
   ipv4addresses = [local.k8s_m1.ipv4address]
   memory = var.k8s_common.memory
   vcpu = var.k8s_common.vcpu
+  disk_size = var.k8s_common.disk_size
   bridgename = var.k8s_common.bridgename
   pool_name = var.k8s_common.pool_name
   volume_format = var.k8s_common.volume_format
@@ -75,6 +77,7 @@ module "k8s_vm_m2" {
   ipv4addresses = [local.k8s_m2.ipv4address]
   memory = var.k8s_common.memory
   vcpu = var.k8s_common.vcpu
+  disk_size = var.k8s_common.disk_size
   bridgename = var.k8s_common.bridgename
   pool_name = var.k8s_common.pool_name
   volume_format = var.k8s_common.volume_format
