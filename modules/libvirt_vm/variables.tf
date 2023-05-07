@@ -62,7 +62,7 @@ variable "hostnames" {
 
 variable "private_key" {
   type        = string
-  default     = "~/.ssh/id_rsa"
+  default     = "~/.ssh/terraform_vm"
   description = "The path to your private key"
 }
 
