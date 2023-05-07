@@ -4,15 +4,21 @@ variable "vms_count" {
   default     = 1
 }
 
-variable "Name" {
-  description = "Name of the VM"
-  type        = string
-  default     = "ubuntu-vm"
-}
+# to be removed
+#variable "Name" {
+#  description = "Name of the VM"
+#  type        = string
+#  default     = "ubuntu-vm"
+#}
 
 variable "interface" {
   type = string
   default = "ens01"
+}
+
+variable "bridgename" {
+  type = string
+  default = "br40"
 }
 
 variable "memory" {
@@ -58,4 +64,24 @@ variable "private_key" {
   type        = string
   default     = "~/.ssh/id_rsa"
   description = "The path to your private key"
+}
+
+variable "pool_name" {
+  type = string
+  default = "default"
+}
+
+variable "volume_format" {
+  type = string
+  default = "qcow2"
+}
+
+variable "graphics_type" {
+  type = string
+  default = "spice"
+}
+
+variable "provision_script_path" {
+  type    = string
+  default = "path/to/provision_script.sh"
 }
