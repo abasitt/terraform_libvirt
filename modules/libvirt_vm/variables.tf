@@ -35,7 +35,12 @@ variable "vcpu" {
 
 variable "ipv4addresses" {
   type = list
-  default = ["192.168.40.61", "192.168.40.62", "192.168.40.63"]
+  default = ["192.168.255.61"]
+}
+
+variable "ipv6addresses" {
+  type = list
+  default = ["fc10::192:168:255:61"]
 }
 
 variable "iso_path" {
@@ -44,11 +49,6 @@ variable "iso_path" {
   default     = "/home/abasit/downloads/cloud-images/ubuntu-22-cloud-image/ubuntu22-disk.qcow2"
 }
 
-#variable "ssh_pub_key" {
-#  description = "Public SSH key for the default user"
-#  type        = string
-#  default     = ""
-#}
 #
 #variable "macs" {
 #  type = list
@@ -64,6 +64,12 @@ variable "private_key" {
   type        = string
   default     = "~/.ssh/id_rsa"
   description = "The path to your private key"
+}
+
+variable "public_key" {
+  description = "Public SSH key for the default user"
+  type        = string
+  default     = "~/.ssh/terraform_vm.pub"
 }
 
 variable "pool_name" {

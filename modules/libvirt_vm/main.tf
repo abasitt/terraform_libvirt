@@ -8,7 +8,7 @@
 # We fetch the latest ubuntu release image from their mirrors
 # use the default pool, already provisioned
 resource "libvirt_volume" "ubuntu-qcow2" {
-  count  = length(var.hostnames)
+  count  = var.vms_count
   name   = "${var.hostnames[count.index]}.qcow2"
   pool   = var.pool_name
   source = var.iso_path
@@ -17,24 +17,26 @@ resource "libvirt_volume" "ubuntu-qcow2" {
 
 
 data "template_file" "user_data" {
-  count    = length(var.hostnames)
+  count    = var.vms_count
   template = file("${path.module}/config/cloud_init.yaml")
   vars = {
     host_name = var.hostnames[count.index]
+    pub_key   = file(var.public_key)
   }
 }
 
 data "template_file" "network_config" {
-  count    = length(var.ipv4addresses)
+  count    = var.vms_count
   template = file("${path.module}/config/network_config.yaml")
   vars = {
     ipv4_addr = var.ipv4addresses[count.index]
+    ipv6_addr = var.ipv6addresses [count.index]
     interface_name = var.interface
   }
 }
 
 resource "libvirt_cloudinit_disk" "commoninit" {
-  count          = length(var.hostnames)
+  count          = var.vms_count
   name           = "commoninit-${var.hostnames[count.index]}.iso"
   user_data      = data.template_file.user_data[count.index].rendered
   network_config = data.template_file.network_config[count.index].rendered
@@ -85,9 +87,9 @@ resource "libvirt_domain" "domain-ubuntu" {
   #  ]
   #}
 
-  depends_on = [
-    libvirt_cloudinit_disk.commoninit
-  ]
+  #depends_on = [
+  #  libvirt_cloudinit_disk.commoninit
+  #]
 
 }
 
