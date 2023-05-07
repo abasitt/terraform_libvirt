@@ -29,7 +29,7 @@ variable "k8s_common" {
     bridgename = "br40"
     pool_name = "default"
     volume_format = "qcow2"
-    interface = "ens3"
+    interface = "eth0"
   }
 }
 
