@@ -18,7 +18,7 @@ variable "interface" {
 
 variable "bridgename" {
   type = string
-  default = "br40"
+  default = "virb0"
 }
 
 variable "memory" {
