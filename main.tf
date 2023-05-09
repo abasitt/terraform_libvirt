@@ -1,85 +1,91 @@
-#since default pool is already available at /var/lib/libvirt/images, we will skip pool creation part
-#resource "libvirt_pool" "ubuntu" {
-#  name = "ubuntu"
-#  type = "dir"
-#  path = "/var/lib/libvirt/images"
+
+#module "k8s_vm" {
+#  source = "./modules/libvirt_vm"
+#  
+#  # Set input variables here
+#  # For example:
+#  hostnames = ["k8s-m1","k8s-m2"]
+#  ipv4addresses = ["192.168.40.111","192.168.40.112"]
+#  memory = 2048
+#  vcpu = 2
+#  bridgename = "br40"
+#  vms_count = 2
+#  #iso_path = "http://archive.ubuntu.com/ubuntu/dists/bionic-updates/main/installer-amd64/current/images/netboot/mini.iso"
+#  pool_name = "default"
+#  volume_format = "qcow2"
+#  interface = "ens3"
+#  # Required provider configuration
+#  providers = {
+#    libvirt = libvirt.host1
+#  }
 #}
 
-# We fetch the latest ubuntu release image from their mirrors
-# use the default pool, already provisioned
-resource "libvirt_volume" "ubuntu-qcow2" {
-  count  = length(var.hostnames)
-  name   = "${var.hostnames[count.index]}.qcow2"
-  pool   = "default"
-  source = var.iso_path
-  format = "qcow2"
-}
-
-
-data "template_file" "user_data" {
-  count    = length(var.hostnames)
-  template = file("${path.module}/config/cloud_init.yaml")
-  vars = {
-    host_name = var.hostnames[count.index]
+# Global variables
+variable "k8s_common" {
+  default = {
+    memory = 2048
+    vcpu = 2
+    disk_size = 30
+    bridgename = "br40"
+    pool_name = "default"
+    volume_format = "qcow2"
+    interface = "eth0"
   }
 }
 
-data "template_file" "network_config" {
-  count    = length(var.ipv4addresses)
-  template = file("${path.module}/config/network_config.yaml")
-  vars = {
-    ipv4_addr = var.ipaddresses[count.index]
-    interface_name = var.interface
+# Local variables for k8s-m1 VM
+locals {
+  k8s_m1 = {
+    hostname = "k8s-m1"
+    ipv4address = "192.168.40.111"
   }
 }
 
-resource "libvirt_cloudinit_disk" "commoninit" {
-  count          = length(var.hostnames)
-  name           = "commoninit-${var.hostnames[count.index]}.iso"
-  user_data      = data.template_file.user_data[count.index].rendered
-  network_config = data.template_file.network_config[count.index].rendered
+# Local variables for k8s-m2 VM
+locals {
+  k8s_m2 = {
+    hostname = "k8s-m2"
+    ipv4address = "192.168.40.112"
+  }
 }
 
-# Create the machine
-resource "libvirt_domain" "domain-ubuntu" {
-  count  = var.vms_count
-  name   = var.hostnames[count.index]
-  memory = var.memory
-  vcpu   = var.vcpu
+module "k8s_vm_m1" {
+  source = "./modules/libvirt_vm"
+  
+  # Set input variables here
+  hostnames = [local.k8s_m1.hostname]
+  ipv4addresses = [local.k8s_m1.ipv4address]
+  memory = var.k8s_common.memory
+  vcpu = var.k8s_common.vcpu
+  disk_size = var.k8s_common.disk_size
+  bridgename = var.k8s_common.bridgename
+  pool_name = var.k8s_common.pool_name
+  volume_format = var.k8s_common.volume_format
+  interface = var.k8s_common.interface
 
-  cloudinit = libvirt_cloudinit_disk.commoninit[count.index].id
-
-  console {
-    type        = "pty"
-    target_port = "0"
-    target_type = "serial"
+  # Required provider configuration
+  providers = {
+    libvirt = libvirt.host1
   }
+}
 
-  console {
-    type        = "pty"
-    target_type = "virtio"
-    target_port = "1"
+module "k8s_vm_m2" {
+  source = "./modules/libvirt_vm"
+  
+  # Set input variables here
+  hostnames = [local.k8s_m2.hostname]
+  ipv4addresses = [local.k8s_m2.ipv4address]
+  memory = var.k8s_common.memory
+  vcpu = var.k8s_common.vcpu
+  disk_size = var.k8s_common.disk_size
+  bridgename = var.k8s_common.bridgename
+  pool_name = var.k8s_common.pool_name
+  volume_format = var.k8s_common.volume_format
+  interface = var.k8s_common.interface
+
+  # Required provider configuration
+  providers = {
+    libvirt = libvirt.host1
   }
-
-  disk {
-    volume_id = libvirt_volume.ubuntu-qcow2[count.index].id
-  }
-
-  network_interface {
-    bridge = "br40"
-  }
-
-  graphics {
-    type        = "spice"
-    listen_type = "address"
-    autoport    = true
-  }
-
-  #provisioner "remote-exec" {
-  #  inline = [
-  #    "sudo netplan apply",
-  #  ]
-  #}
-
 }
 

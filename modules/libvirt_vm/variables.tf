@@ -4,15 +4,21 @@ variable "vms_count" {
   default     = 1
 }
 
-variable "Name" {
-  description = "Name of the VM"
-  type        = string
-  default     = "ubuntu-vm"
-}
+# to be removed
+#variable "Name" {
+#  description = "Name of the VM"
+#  type        = string
+#  default     = "ubuntu-vm"
+#}
 
 variable "interface" {
   type = string
   default = "ens01"
+}
+
+variable "bridgename" {
+  type = string
+  default = "virb0"
 }
 
 variable "memory" {
@@ -29,7 +35,12 @@ variable "vcpu" {
 
 variable "ipv4addresses" {
   type = list
-  default = ["192.168.40.61", "192.168.40.62", "192.168.40.63"]
+  default = ["192.168.255.61"]
+}
+
+variable "ipv6addresses" {
+  type = list
+  default = ["fc10::192:168:255:61"]
 }
 
 variable "iso_path" {
@@ -38,11 +49,12 @@ variable "iso_path" {
   default     = "/home/abasit/downloads/cloud-images/ubuntu-22-cloud-image/ubuntu22-disk.qcow2"
 }
 
-#variable "ssh_pub_key" {
-#  description = "Public SSH key for the default user"
-#  type        = string
-#  default     = ""
-#}
+variable "disk_size" {
+  description = "Path to the Ubuntu 22.04 ISO file"
+  type        = number
+  default     = 20
+}
+
 #
 #variable "macs" {
 #  type = list
@@ -56,6 +68,32 @@ variable "hostnames" {
 
 variable "private_key" {
   type        = string
-  default     = "~/.ssh/id_rsa"
+  default     = "~/.ssh/terraform_vm"
   description = "The path to your private key"
+}
+
+variable "public_key" {
+  description = "Public SSH key for the default user"
+  type        = string
+  default     = "~/.ssh/terraform_vm.pub"
+}
+
+variable "pool_name" {
+  type = string
+  default = "default"
+}
+
+variable "volume_format" {
+  type = string
+  default = "qcow2"
+}
+
+variable "graphics_type" {
+  type = string
+  default = "spice"
+}
+
+variable "provision_script_path" {
+  type    = string
+  default = "path/to/provision_script.sh"
 }
