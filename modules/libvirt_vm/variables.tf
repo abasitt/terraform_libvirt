@@ -1,15 +1,16 @@
+variable "cluster_name" {
+  type        = string
+  description = "The name of the project"
+  default     =  "k8s"
+}
+
+
 variable "vms_count" {
   description = "Number of the VMs"
   type        = number
   default     = 1
 }
 
-# to be removed
-#variable "Name" {
-#  description = "Name of the VM"
-#  type        = string
-#  default     = "ubuntu-vm"
-#}
 
 variable "interface" {
   type = string
@@ -47,6 +48,14 @@ variable "iso_path" {
   description = "Path to the Ubuntu 22.04 ISO file"
   type        = string
   default     = "/home/abasit/downloads/cloud-images/ubuntu-22-cloud-image/ubuntu22-disk.qcow2"
+  #tbd changed default to cloud image
+  #default     = ""https://cloud-images.ubuntu.com/releases/jammy/release-20230302/ubuntu-22.04-server-cloudimg-amd64.img""
+}
+
+variable "distro_name" {
+  description = "Os distro name for base OS name"
+  type        = string
+  default     = "ubuntu"
 }
 
 variable "disk_size" {
@@ -78,10 +87,20 @@ variable "public_key" {
   default     = "~/.ssh/terraform_vm.pub"
 }
 
-variable "pool_name" {
-  type = string
-  default = "default"
+variable "pool_path" {
+  type        = string
+  description = "The path for the libvirt pool"
+  default     = "/var/lib/libvirt/images"
 }
+
+
+# to be remove
+#variable "pool_name" {
+#
+#  type = string
+#
+#  default = "default"
+#}
 
 variable "volume_format" {
   type = string

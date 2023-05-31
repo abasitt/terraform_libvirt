@@ -1,16 +1,16 @@
-#since default pool is already available at /var/lib/libvirt/images, we will skip pool creation part
-#resource "libvirt_pool" "ubuntu" {
-#  name = "ubuntu"
-#  type = "dir"
-#  path = "/var/lib/libvirt/images"
-#}
+#create a new pool
+resource "libvirt_pool" "k8s" {
+  name = "k8s"
+  type = "dir"
+  path = "${var.pool_path}/${var.cluster_name}"
+}
 
 # We fetch the latest ubuntu release image from their mirrors
 # use the default pool, already provisioned
 resource "libvirt_volume" "base-qcow2" {
-  count  = var.vms_count
-  name   = "${var.hostnames[count.index]}_base.qcow2"
-  pool   = var.pool_name
+#  count  = var.vms_count
+  name   = "${var.distro_name}_base.qcow2"
+  pool   = libvirt_pool.k8s.name
   source = var.iso_path
   format = var.volume_format
 }
@@ -18,7 +18,8 @@ resource "libvirt_volume" "base-qcow2" {
 resource "libvirt_volume" "ubuntu-qcow2" {
   count           = var.vms_count
   name            = "${var.hostnames[count.index]}_resized.qcow2"
-  base_volume_id  = libvirt_volume.base-qcow2[count.index].id
+  pool            = libvirt_pool.k8s.name
+  base_volume_id  = libvirt_volume.base-qcow2.id
   size            = var.disk_size*1073741824
 }
 
