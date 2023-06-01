@@ -1,15 +1,16 @@
+variable "cluster_name" {
+  type        = string
+  description = "The name of the project"
+  default     =  "k8s"
+}
+
+
 variable "vms_count" {
   description = "Number of the VMs"
   type        = number
   default     = 1
 }
 
-# to be removed
-#variable "Name" {
-#  description = "Name of the VM"
-#  type        = string
-#  default     = "ubuntu-vm"
-#}
 
 variable "interface" {
   type = string
@@ -33,20 +34,27 @@ variable "vcpu" {
   default     = 2
 }
 
-variable "ipv4addresses" {
-  type = list
-  default = ["192.168.255.61"]
+variable "ipv4address" {
+  type = string
+  default = "192.168.255.61"
 }
 
-variable "ipv6addresses" {
-  type = list
-  default = ["fc10::192:168:255:61"]
+variable "ipv6address" {
+  type = string
+  default = "fc10::192:168:255:61"
 }
 
 variable "iso_path" {
   description = "Path to the Ubuntu 22.04 ISO file"
   type        = string
-  default     = "/home/abasit/downloads/cloud-images/ubuntu-22-cloud-image/ubuntu22-disk.qcow2"
+  default     = "https://cloud-images.ubuntu.com/releases/jammy/release-20230302/ubuntu-22.04-server-cloudimg-amd64.img"
+#  default     = "/home/abasit/downloads/cloud-images/ubuntu-22-cloud-image/ubuntu22-disk.qcow2"
+}
+
+variable "distro_name" {
+  description = "Os distro name for base OS name"
+  type        = string
+  default     = "ubuntu"
 }
 
 variable "disk_size" {
@@ -61,9 +69,10 @@ variable "disk_size" {
 #  default = ["52:54:00:50:99:c5", "52:54:00:0e:87:be", "52:54:00:9d:90:38"]
 #}
 #
-variable "hostnames" {
-  type = list
-  default = ["k8s-m1", "k8s-w1", "k8s-w2"]
+variable "hostname" {
+  type = string
+  description = "hostname of the virtual machine"
+  default = "k8s-m1"
 }
 
 variable "private_key" {
@@ -78,10 +87,20 @@ variable "public_key" {
   default     = "~/.ssh/terraform_vm.pub"
 }
 
-variable "pool_name" {
-  type = string
-  default = "default"
+variable "pool_path" {
+  type        = string
+  description = "The path for the libvirt pool"
+  default     = "/var/lib/libvirt/images"
 }
+
+
+# to be remove
+#variable "pool_name" {
+#
+#  type = string
+#
+#  default = "default"
+#}
 
 variable "volume_format" {
   type = string
