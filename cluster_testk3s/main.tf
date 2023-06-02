@@ -27,7 +27,7 @@ locals {
   k8s_m1 = {
     hostname = "k3s-m1"
     ipv4address = "192.168.40.121"
-    ipv6address = "2001:470:ee86:4:192:168.40:121"
+    ipv6address = "2001:470:ee86:4:192:168:40:121"
     pool_path = "/mnt/dsk4tb1/kvm"
   }
 }
@@ -37,7 +37,7 @@ locals {
   k8s_m2 = {
     hostname = "k3s-m2"
     ipv4address = "192.168.40.122"
-    ipv6address = "2001:470:ee86:4:192:168.40:122"
+    ipv6address = "2001:470:ee86:4:192:168:40:122"
     pool_path = "/mnt/dsk4tb1/kvm"
   }
 }
@@ -46,7 +46,7 @@ locals {
   k8s_m3 = {
     hostname = "k3s-m3"
     ipv4address = "192.168.40.123"
-    ipv6address = "2001:470:ee86:4:192:168.40:123"
+    ipv6address = "2001:470:ee86:4:192:168:40:123"
     pool_path = "/mnt/dsk4tb1/kvm"
   }
 }
