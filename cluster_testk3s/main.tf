@@ -57,6 +57,7 @@ module "k8s_vm_m1" {
   # Set input variables here
   hostname = local.k8s_m1.hostname
   ipv4address = local.k8s_m1.ipv4address
+  ipv6address = local.k8s_m1.ipv6address
   pool_path = local.k8s_m1.pool_path
   memory = var.k8s_common.memory
   vcpu = var.k8s_common.vcpu
@@ -78,6 +79,7 @@ module "k8s_vm_m2" {
   # Set input variables here
   hostname = local.k8s_m2.hostname
   ipv4address = local.k8s_m2.ipv4address
+  ipv6address = local.k8s_m2.ipv6address
   pool_path = local.k8s_m2.pool_path
   memory = var.k8s_common.memory
   vcpu = var.k8s_common.vcpu
@@ -99,6 +101,7 @@ module "k8s_vm_m3" {
   # Set input variables here
   hostname = local.k8s_m3.hostname
   ipv4address = local.k8s_m3.ipv4address
+  ipv6address = local.k8s_m3.ipv6address
   pool_path = local.k8s_m3.pool_path
   memory = var.k8s_common.memory
   vcpu = var.k8s_common.vcpu
