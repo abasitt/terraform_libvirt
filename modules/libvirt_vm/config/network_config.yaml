@@ -1,25 +1,25 @@
 ethernets:
-    ${interface_name}:
-        addresses: 
-        - ${ipv4_addr}/23
-        - ${ipv6_addr}/64
-        dhcp4: false
-        dhcp6: false
-        nameservers:
-            addresses: 
-            - 1.1.1.1
-            - 8.8.8.8
-            - 2606:4700:4700::64 #cloudfare dns64
-            - 2001:4860:4860::64 #google dns64
-        routes: 
-          - to: default
-            via: 192.168.40.1
-          - to: "::/0"      # defaut ipv6
-            via: "2001:470:ee86:4::1"
-            on-link: true
-          - to: 64:ff9b::/96 #nat64 range
-            via: 2001:470:ee86:4::2 #nat64 gw
-        match:
-          name: en*
-        set-name: ${interface_name}
+  ${interface_name}:
+    addresses:
+      - ${ipv4_addr}/23
+      - ${ipv6_addr}/64
+    dhcp4: false
+    dhcp6: false
+    nameservers:
+      addresses:
+        - 1.1.1.1
+        - 8.8.8.8
+        - 2606:4700:4700::64  # Cloudflare dns64
+        - 2001:4860:4860::64  # Google dns64
+    routes:
+      - to: default
+        via: 192.168.40.1
+      - to: "::/0"  # Default IPv6
+        via: "2001:470:ee86:4::1"
+        on-link: true
+      - to: 64:ff9b::/96  # NAT64 range
+        via: 2001:470:ee86:4::2  # NAT64 gateway
+    match:
+      name: en*
+    set-name: ${interface_name}
 version: 2
