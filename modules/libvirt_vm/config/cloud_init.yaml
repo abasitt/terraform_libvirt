@@ -21,9 +21,9 @@ users:
 
 runcmd:
   - netplan apply
-  - sudo apt update
-  - sudo apt upgrade
-  - sudo apt install qemu-guest-agent
+  - sudo apt update -y
+  - sudo apt upgrade -y
+  - sudo apt install -y qemu-guest-agent
   - sudo systemctl enable qemu-guest-agent
   - sudo systemctl start qemu-guest-agent
   #- sudo apt install -y apt-transport-https ca-certificates curl
