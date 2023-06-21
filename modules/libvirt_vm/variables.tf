@@ -34,6 +34,12 @@ variable "vcpu" {
   default     = 2
 }
 
+variable "autostart" {
+  description = "Enable autostart for a VM"
+  type        = string
+  default     = "true"
+}
+
 variable "ipv4address" {
   type = string
   default = "192.168.255.61"

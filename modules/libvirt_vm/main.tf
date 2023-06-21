@@ -49,9 +49,10 @@ resource "libvirt_cloudinit_disk" "commoninit" {
 
 # Create the machine
 resource "libvirt_domain" "domain-ubuntu" {
-  name   = var.hostname
-  memory = var.memory
-  vcpu   = var.vcpu
+  name      = var.hostname
+  memory    = var.memory
+  vcpu      = var.vcpu
+  autostart = var.autostart
 
   cloudinit = libvirt_cloudinit_disk.commoninit.id
 
