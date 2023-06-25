@@ -32,7 +32,11 @@ data "template_file" "network_config" {
   template = file("${path.module}/config/network_config.yaml")
   vars = {
     ipv4_addr = var.ipv4address
+    ipv4_mask = var.ipv4mask
+    ipv4_gw   = var.ipv4gw
     ipv6_addr = var.ipv6address
+    ipv6_mask = var.ipv6mask
+    ipv6_gw   = var.ipv6gw
     interface_name = var.interface
   }
 }

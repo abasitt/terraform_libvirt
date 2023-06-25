@@ -45,9 +45,29 @@ variable "ipv4address" {
   default = "192.168.255.61"
 }
 
+variable "ipv4mask" {
+  type = string
+  default = "24"
+}
+
+variable "ipv4gw" {
+  type = string
+  default = ""
+}
+
 variable "ipv6address" {
   type = string
   default = "fc10::192:168:255:61"
+}
+
+variable "ipv6mask" {
+  type = string
+  default = "64" 
+}
+
+variable "ipv6gw" {
+  type = string
+  default = ""
 }
 
 variable "iso_path" {

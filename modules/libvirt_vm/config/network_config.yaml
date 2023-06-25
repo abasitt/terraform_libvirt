@@ -1,8 +1,8 @@
 ethernets:
   ${interface_name}:
     addresses:
-      - ${ipv4_addr}/23
-      - ${ipv6_addr}/64
+      - ${ipv4_addr}/${ipv4_mask}
+      - ${ipv6_addr}/${ipv6_mask}
     dhcp4: false
     dhcp6: false
     nameservers:
@@ -13,12 +13,12 @@ ethernets:
         - 2001:4860:4860::64  # Google dns64
     routes:
       - to: default
-        via: 192.168.40.1
-      - to: "::/0"  # Default IPv6
-        via: "2001:470:ee86:4::1"
+        via: ${ipv4_gw}
+      - to: default  # Default IPv6
+        via: ${ipv6_gw}
         on-link: true
       - to: 64:ff9b::/96  # NAT64 range
-        via: 2001:470:ee86:4::2  # NAT64 gateway
+        via: ${ipv6_gw}  # NAT64 gateway
     match:
       name: en*
     set-name: ${interface_name}
