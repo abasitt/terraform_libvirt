@@ -18,6 +18,10 @@ variable "k8s_common" {
     pool_path = "/var/lib/libvirt/images"
     volume_format = "qcow2"
     iso_path = "/home/abasit/downloads/cloud-images/ubuntu-22-cloud-image/ubuntu22-disk.qcow2"
+    ipv4mask = "24"
+    ipv4gw   = "192.168.30.1"
+    ipv6mask = "64"
+    ipv6gw   = "2001:470:ee86:30::1"
     interface = "eth0"
   }
 }
@@ -57,7 +61,11 @@ module "k8s_vm_m1" {
   # Set input variables here
   hostname = local.k8s_m1.hostname
   ipv4address = local.k8s_m1.ipv4address
+  ipv4gw = var.k8s_common.ipv4gw
+  ipv4mask = var.k8s_common.ipv4mask
   ipv6address = local.k8s_m1.ipv6address
+  ipv6gw = var.k8s_common.ipv6gw
+  ipv6mask = var.k8s_common.ipv6mask
   pool_path = local.k8s_m1.pool_path
   memory = var.k8s_common.memory
   vcpu = var.k8s_common.vcpu
@@ -78,8 +86,12 @@ module "k8s_vm_m2" {
   
   # Set input variables here
   hostname = local.k8s_m2.hostname
-  ipv4address = local.k8s_m2.ipv4address
-  ipv6address = local.k8s_m2.ipv6address
+  ipv4address = local.k8s_m1.ipv4address
+  ipv4gw = var.k8s_common.ipv4gw
+  ipv4mask = var.k8s_common.ipv4mask
+  ipv6address = local.k8s_m1.ipv6address
+  ipv6gw = var.k8s_common.ipv6gw
+  ipv6mask = var.k8s_common.ipv6mask
   pool_path = local.k8s_m2.pool_path
   memory = var.k8s_common.memory
   vcpu = var.k8s_common.vcpu
@@ -100,8 +112,12 @@ module "k8s_vm_m3" {
   
   # Set input variables here
   hostname = local.k8s_m3.hostname
-  ipv4address = local.k8s_m3.ipv4address
-  ipv6address = local.k8s_m3.ipv6address
+  ipv4address = local.k8s_m1.ipv4address
+  ipv4gw = var.k8s_common.ipv4gw
+  ipv4mask = var.k8s_common.ipv4mask
+  ipv6address = local.k8s_m1.ipv6address
+  ipv6gw = var.k8s_common.ipv6gw
+  ipv6mask = var.k8s_common.ipv6mask
   pool_path = local.k8s_m3.pool_path
   memory = var.k8s_common.memory
   vcpu = var.k8s_common.vcpu
