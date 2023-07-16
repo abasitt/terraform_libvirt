@@ -14,7 +14,7 @@ variable "k8s_common" {
     memory = 16384
     vcpu = 4
     disk_size = 1000
-    bridgename = "br10"
+    bridgename = "br0"
     pool_path = "/var/lib/libvirt/images"
     volume_format = "qcow2"
     iso_path = "/home/abasit/downloads/cloud-images/ubuntu-22-cloud-image/ubuntu22-disk.qcow2"
