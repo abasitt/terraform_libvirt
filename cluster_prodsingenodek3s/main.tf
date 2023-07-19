@@ -14,14 +14,14 @@ variable "k8s_common" {
     memory = 16384
     vcpu = 4
     disk_size = 1000
-    bridgename = "br0"
+    bridgename = "br30"
     pool_path = "/var/lib/libvirt/images"
     volume_format = "qcow2"
     iso_path = "/home/abasit/downloads/cloud-images/ubuntu-22-cloud-image/ubuntu22-disk.qcow2"
-    ipv4mask = "23"
-    ipv4gw   = "192.168.10.1"
+    ipv4mask = "24"
+    ipv4gw   = "192.168.30.1"
     ipv6mask = "64"
-    ipv6gw   = "2001:470:ee86:10::1"
+    ipv6gw   = "2001:470:ee86:30::1"
     interface = "eth0"
   }
 }
@@ -30,9 +30,9 @@ variable "k8s_common" {
 locals {
   k8s_m1 = {
     hostname = "k3s-sng1"
-    ipv4address = "192.168.10.121"
-    ipv6address = "2001:470:ee86:10:192:168:10:121"
-    pool_path = "/mnt/dsk4tbk/kvm"
+    ipv4address = "192.168.30.121"
+    ipv6address = "2001:470:ee86:30:192:168:30:121"
+    pool_path = "/mnt/dsk4tb/kvm"
   }
 }
 
@@ -59,6 +59,6 @@ module "k3s_sng_vm1" {
 
   # Required provider configuration
   providers = {
-    libvirt = libvirt.host1
+    libvirt = libvirt.host3
   }
 }
