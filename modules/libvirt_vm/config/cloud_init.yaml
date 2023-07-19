@@ -10,7 +10,7 @@ chpasswd:
      root:password
   expire: false
 users:
-  - name: ubuntu
+  - name: k8s
     sudo: ALL=(ALL) NOPASSWD:ALL
     groups: users, admin
     home: /home/ubuntu
