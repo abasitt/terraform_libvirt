@@ -21,5 +21,5 @@ ethernets:
         via: ${ipv6_gw}  # NAT64 gateway
     match:
       name: en*
-    set-name: ${interface_name}
+#    set-name: ${interface_name}
 version: 2
