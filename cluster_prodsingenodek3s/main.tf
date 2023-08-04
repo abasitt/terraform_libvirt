@@ -32,7 +32,7 @@ locals {
     hostname = "k3s-sng1"
     ipv4address = "192.168.30.121"
     ipv6address = "2001:470:ee86:30:192:168:30:121"
-    pool_path = "/mnt/dsk4tb/kvm"
+    pool_path = "/zp_hdd01/kvm/images"
   }
 }
 
