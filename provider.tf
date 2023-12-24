@@ -1,17 +1,26 @@
 terraform {
- required_version = ">= 0.13"
+  cloud {
+    hostname     = "app.terraform.io"
+    organization = "abasit"
+
+    workspaces {
+      name = "home-libvirt"
+    }
+  }
   required_providers {
     libvirt = {
       source  = "dmacvicar/libvirt"
       version = "0.7.1"
     }
   }
+  required_version = ">= 0.13"
 }
 
 # Define providers
 provider "libvirt" {
   alias = "host1"
-  uri   = "qemu+ssh://abasit@192.168.10.5/system"
+  #uri   = "qemu+ssh://abasit@192.168.10.5/system"
+  uri   = "qemu+ssh://abasit@192.168.10.5/system?sshauth=privkey&keyfile=${path.module}/.ssh/host_id_rsa&no_verify=1"
 }
 
 #provider "libvirt" {

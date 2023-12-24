@@ -103,14 +103,14 @@ variable "hostname" {
 
 variable "private_key" {
   type        = string
-  default     = "~/.ssh/terraform_vm"
+  default     = ""
   description = "The path to your private key"
 }
 
 variable "public_key" {
   description = "Public SSH key for the default user"
   type        = string
-  default     = "~/.ssh/terraform_vm.pub"
+  default     = ""
 }
 
 variable "pool_path" {

@@ -1,11 +1,19 @@
 terraform {
- required_version = ">= 0.13"
+  cloud {
+    hostname     = "app.terraform.io"
+    organization = "abasit"
+
+    workspaces {
+      name = "home-libvirt"
+    }
+  }
   required_providers {
     libvirt = {
       source  = "dmacvicar/libvirt"
       version = "0.7.1"
     }
   }
+  required_version = ">= 0.13"
 }
 
 # Define providers
