@@ -1,64 +1,35 @@
-#create a new pool
-resource "libvirt_pool" "k8spool" {
-  name  = "k8spool_${var.hostname}"
-  type  = "dir"
-  path  = "${var.pool_path}/${var.hostname}"
-}
-
-# Base image, currently created for each VM, need to fix to have a common image per host
-resource "libvirt_volume" "base-qcow2" {
-  name   = "${var.distro_name}_base.qcow2"
-  pool   = libvirt_pool.k8spool.name
-  source = var.iso_path
-  format = var.volume_format
-}
-
-resource "libvirt_volume" "ubuntu-qcow2" {
-  name            = "${var.hostname}_resized.qcow2"
-  pool            = libvirt_pool.k8spool.name
-  base_volume_id  = libvirt_volume.base-qcow2.id
-  size            = var.disk_size*1073741824
-}
-
-data "template_file" "user_data" {
-  template = file("${path.module}/config/cloud_init.yaml")
-  vars = {
-    host_name = var.hostname
-    pub_key   = file(var.public_key)
+terraform {
+  required_version = ">= 1.0"
+  required_providers {
+    libvirt = {
+      source  = "dmacvicar/libvirt"
+      version = ">= 0.7.0"
+    }
   }
 }
 
-data "template_file" "network_config" {
-  template = file("${path.module}/config/network_config.yaml")
-  vars = {
-    ipv4_addr = var.ipv4address
-    ipv4_mask = var.ipv4mask
-    ipv4_gw   = var.ipv4gw
-    ipv6_addr = var.ipv6address
-    ipv6_mask = var.ipv6mask
-    ipv6_gw   = var.ipv6gw
-    interface_name = var.interface
+resource "libvirt_domain" "virt-machine" {
+  count  = var.vm_count
+  name   = format("${var.vm_hostname_prefix}%02d", count.index + var.index_start)
+  memory = var.memory
+  cpu {
+    mode = var.cpu_mode
   }
-}
+  vcpu       = var.vcpu
+  autostart  = var.autostart
+  qemu_agent = true
 
-resource "libvirt_cloudinit_disk" "commoninit" {
-  name           = "commoninit-${var.hostname}.iso"
-  user_data      = data.template_file.user_data.rendered
-  network_config = data.template_file.network_config.rendered
-  pool           = libvirt_pool.k8spool.name
-  depends_on = [
-    libvirt_volume.ubuntu-qcow2
-  ]
-}
+  cloudinit = element(libvirt_cloudinit_disk.commoninit[*].id, count.index)
 
-# Create the machine
-resource "libvirt_domain" "domain-ubuntu" {
-  name      = var.hostname
-  memory    = var.memory
-  vcpu      = var.vcpu
-  autostart = var.autostart
+  network_interface {
+    bridge         = var.bridge
+    wait_for_lease = true
+    hostname       = format("${var.vm_hostname_prefix}%02d", count.index + var.index_start)
+  }
 
-  cloudinit = libvirt_cloudinit_disk.commoninit.id
+  xml {
+    xslt = templatefile("${path.module}/xslt/template.tftpl", var.xml_override)
+  }
 
   console {
     type        = "pty"
@@ -73,28 +44,43 @@ resource "libvirt_domain" "domain-ubuntu" {
   }
 
   disk {
-    volume_id = libvirt_volume.ubuntu-qcow2.id
+    volume_id = element(libvirt_volume.volume-qcow2[*].id, count.index)
   }
 
-  network_interface {
-    bridge = var.bridgename
+  dynamic "disk" {
+    for_each = var.additional_disk_ids
+    content {
+      volume_id = disk.value
+    }
+  }
+
+  dynamic "filesystem" {
+    for_each = var.share_filesystem.source != null ? [var.share_filesystem.source] : []
+    content {
+      source     = var.share_filesystem.source
+      target     = var.share_filesystem.target
+      readonly   = var.share_filesystem.readonly
+      accessmode = var.share_filesystem.mode
+    }
   }
 
   graphics {
-    type        = var.graphics_type
+    type        = "spice"
     listen_type = "address"
     autoport    = true
   }
 
-  #provisioner "remote-exec" {
-  #  inline = [
-  #    "sudo netplan apply",
-  #  ]
-  #}
-
-  #depends_on = [
-  #  libvirt_cloudinit_disk.commoninit
-  #]
-
+  provisioner "remote-exec" {
+    inline = [
+      "echo \"Virtual Machine \"$(hostname)\" is UP!\"",
+      "date"
+    ]
+    connection {
+      type        = "ssh"
+      user        = var.ssh_admin
+      host        = self.network_interface[0].addresses[0]
+      private_key = var.ssh_private_key != null ? file(var.ssh_private_key) : null
+      timeout     = "2m"
+    }
+  }
 }
-
