@@ -36,9 +36,15 @@ resource "libvirt_cloudinit_disk" "commoninit" {
   network_config = templatefile(
     "${path.module}/templates/network_config_${var.dhcp == true ? "dhcp" : "static"}.tpl",
     {
-      ip_address    = element(var.ip_address, count.index)
-      ip_gateway    = var.ip_gateway
-      ip_nameserver = var.ip_nameserver
+      ip_address     = element(var.ip_address, count.index)
+      ip_gateway     = var.ip_gateway
+      ip_subnetmask  = var.ip_subnetmask
+      ip_nameserver  = var.ip_nameserver
+      ip6_address    = element(var.ip6_address, count.index)
+      ip6_gateway    = var.ip6_gateway
+      ip6_subnetmask = var.ip6_subnetmask
+      ip6_nameserver = var.ip6_nameserver
+
       nic           = (var.share_filesystem.source == null ? "ens3" : "ens4")
       # WA: If the shared filesystem is used, Libvirt connects Unclassified device to the 3rd position of PCI bus
     }

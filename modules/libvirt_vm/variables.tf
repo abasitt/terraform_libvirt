@@ -148,10 +148,40 @@ variable "ip_nameserver" {
   default     = "192.168.123.1"
 }
 
+variable "ip_subnetmask" {
+  description = "Subnet value of the IP address e.g./24"
+  type        = string
+  default     = "24"
+}
+
 variable "ip_gateway" {
   description = "IP addresses of a gateway"
   type        = string
   default     = "192.168.123.1"
+}
+
+variable "ip6_address" {
+  description = "List of IPv6 addresses"
+  type        = list(string)
+  default     = ["fd01:192:168:123::101"]
+}
+
+variable "ip6_nameserver" {
+  description = "IP addresses of a nameserver"
+  type        = string
+  default     = "fd01:192:168:123::1"
+}
+
+variable "ip6_subnetmask" {
+  description = "Subnet value of the IP address e.g.64"
+  type        = string
+  default     = "64"
+}
+
+variable "ip6_gateway" {
+  description = "IP addresses of a gateway"
+  type        = string
+  default     = "fd01:192:168:123::1"
 }
 
 variable "ssh_admin" {
