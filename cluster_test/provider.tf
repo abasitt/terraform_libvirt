@@ -19,7 +19,7 @@ terraform {
 # Define providers
 provider "libvirt" {
   alias = "host1"
-  uri   = "qemu+ssh://abasit@192.168.10.5/system?sshauth=privkey&keyfile=${path.module}/../.ssh/host_id_rsa&no_verify=1"
+  uri   = "qemu+ssh://abasit@192.168.10.5/system?keyfile=/home/abasit/.ssh/id_rsa&no_verify=1"
 }
 
 #provider "libvirt" {
