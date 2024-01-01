@@ -10,13 +10,15 @@ module "k8s_vm1" {
   vcpu               = 1
   dhcp               = false
   ip_address         = ["192.168.30.59"]
+  ip6_address        = ["2001:470:ee86:30:192:168:30:59"]
   ip_gateway         = "192.168.30.1"
+  ip6_gateway        = "2001:470:ee86:30::1"
   bridge             = "br30"
-  pool               = "zfs-vms"
+  pool               = "zp_sda_sdb-images"
   system_volume      = 20
-  ssh_admin          = "ubuntu"
-  local_admin        = "localadmin"
-  local_admin_passwd = "local@123"
+  ssh_admin          = "k8s"
+  ssh_admin_passwd   = "$6$rounds=4096$hSjO/nCBqa/ottYL$mg7Z4dlx6FR0Tpy1NOn.cWJ9926sfr0bV9V/gVwNUIyKHU9nHsYhqpbtaQjLEjuANW0BMRUiTiJe7PjAV4eER1"
+  root_passwd        = "$6$rounds=4096$hSjO/nCBqa/ottYL$mg7Z4dlx6FR0Tpy1NOn.cWJ9926sfr0bV9V/gVwNUIyKHU9nHsYhqpbtaQjLEjuANW0BMRUiTiJe7PjAV4eER1"
   ssh_private_key    = "~/.ssh/terraform_vm"
   ssh_keys    = [
     chomp(file("~/.ssh/terraform_vm.pub"))

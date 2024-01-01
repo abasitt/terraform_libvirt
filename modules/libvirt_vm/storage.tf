@@ -24,7 +24,9 @@ resource "libvirt_cloudinit_disk" "commoninit" {
   user_data = templatefile(
     "${path.module}/templates/cloud_init.tpl",
     {
+      root_passwd        = var.root_passwd
       ssh_admin          = var.ssh_admin
+      ssh_admin_passwd   = var.ssh_admin_passwd
       ssh_keys           = local.all_keys
       local_admin        = var.local_admin
       local_admin_passwd = var.local_admin_passwd

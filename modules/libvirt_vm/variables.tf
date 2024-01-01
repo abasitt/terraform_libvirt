@@ -184,10 +184,22 @@ variable "ip6_gateway" {
   default     = "fd01:192:168:123::1"
 }
 
+variable "root_passwd" {
+  description = "ssh admin user password"
+  type        = string
+  default     = ""
+}
+
 variable "ssh_admin" {
   description = "Admin user with ssh access"
   type        = string
   default     = "ssh-admin"
+}
+
+variable "ssh_admin_passwd" {
+  description = "ssh admin user password"
+  type        = string
+  default     = ""
 }
 
 variable "ssh_keys" {

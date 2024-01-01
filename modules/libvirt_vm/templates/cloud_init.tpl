@@ -12,20 +12,35 @@ ${runcmd}
 
 fqdn: ${hostname}
 
+# disable ssh access as root.
+disable_root: true
+
+# if you want to allow SSH with password, set this to true
+ssh_pwauth: false
+
+
 users:
+%{ if root_passwd != "" }
+  - name: root
+    lock_passwd: false
+    hashed_passwd: ${root_passwd}
+%{ endif }
   - name: ${ssh_admin}
-    gecos: CI User
-    lock-passwd: false
+    gecos: Kubernetes Clustorious
+    lock_passwd: false
     sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: users, admin
     system: False
     ssh_authorized_keys: ${ssh_keys}
     shell: /bin/bash
+    hashed_passwd: ${ssh_admin_passwd}
 %{ if local_admin != "" }
   - name: ${local_admin}
     gecos: Local admin (no SSH)
-    lock-passwd: false
+    lock_passwd: false
     sudo: ALL=(ALL) ALL
-    passwd: ${local_admin_passwd}
+    # $ mkpasswd -m SHA-512 test_password -R 4096
+    hashed_passwd: ${local_admin_passwd}
     shell: /bin/bash
 %{ endif }
 
