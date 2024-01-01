@@ -1,83 +1,32 @@
-# Resource pools and base volume
 
-# Creates a resource pool for main (os) volumes # this is TBD if use one pool per cluster, currently i create on pool per vm
-#resource "libvirt_pool" "main_resource_pool" {
-#  name = "${var.cluster_name}-main-resource-pool"
-#  type = "dir"
-#  path = "${}/${var.cluster_name}-main-resource-pool")
-#}
-
-
-# Global variables
-variable "k8s_common" {
-  default = {
-    memory = 2048
-    vcpu = 2
-    disk_size = 30
-    bridgename = "br40"
-    pool_path = "/var/lib/libvirt/images"
-    volume_format = "qcow2"
-    iso_path = "/home/abasit/downloads/cloud-images/ubuntu-22-cloud-image/ubuntu22-disk.qcow2"
-    interface = "eth0"
-  }
-}
-
-# Local variables for k8s-m1 VM
-locals {
-  k8s_m1 = {
-    hostname = "k8s-m1"
-    ipv4address = "192.168.40.111"
-    pool_path = "/mnt/dsk4tb1/kvm"
-  }
-}
-
-# Local variables for k8s-m2 VM
-locals {
-  k8s_m2 = {
-    hostname = "k8s-m2"
-    ipv4address = "192.168.40.112"
-  }
-}
-
-module "k8s_vm_m1" {
+module "k8s_vm1" {
   source = "../modules/libvirt_vm"
   
   # Set input variables here
-  hostname = local.k8s_m1.hostname
-  ipv4address = local.k8s_m1.ipv4address
-  pool_path = local.k8s_m1.pool_path
-  memory = var.k8s_common.memory
-  vcpu = var.k8s_common.vcpu
-  disk_size = var.k8s_common.disk_size
-  bridgename = var.k8s_common.bridgename
-  iso_path = var.k8s_common.iso_path
-  volume_format = var.k8s_common.volume_format
-  interface = var.k8s_common.interface
+  vm_hostname_prefix = "test"
+  autostart          = true
+  vm_count           = 1
+  memory             = "2048"
+  vcpu               = 1
+  dhcp               = false
+  ip_address         = ["192.168.30.59"]
+  ip6_address        = ["2001:470:ee86:30:192:168:30:59"]
+  ip_gateway         = "192.168.30.1"
+  ip6_gateway        = "2001:470:ee86:30::1"
+  bridge             = "br30"
+  pool               = "zp_sda_sdb-images"
+  system_volume      = 20
+  ssh_admin          = "k8s"
+  ssh_admin_passwd   = "$6$rounds=4096$hSjO/nCBqa/ottYL$mg7Z4dlx6FR0Tpy1NOn.cWJ9926sfr0bV9V/gVwNUIyKHU9nHsYhqpbtaQjLEjuANW0BMRUiTiJe7PjAV4eER1"
+  root_passwd        = "$6$rounds=4096$hSjO/nCBqa/ottYL$mg7Z4dlx6FR0Tpy1NOn.cWJ9926sfr0bV9V/gVwNUIyKHU9nHsYhqpbtaQjLEjuANW0BMRUiTiJe7PjAV4eER1"
+  ssh_private_key    = "~/.ssh/terraform_vm"
+  ssh_keys    = [
+    chomp(file("~/.ssh/terraform_vm.pub"))
+    ]
+  os_img_url         = "file:///home/abasit/downloads/iso/jammy-server-cloudimg-amd64.img"
 
   # Required provider configuration
   providers = {
     libvirt = libvirt.host1
   }
 }
-
-module "k8s_vm_m2" {
-  source = "../modules/libvirt_vm"
-  
-  # Set input variables here
-  hostname = local.k8s_m2.hostname
-  ipv4address = local.k8s_m2.ipv4address
-  pool_path = var.k8s_common.pool_path
-  memory = var.k8s_common.memory
-  vcpu = var.k8s_common.vcpu
-  disk_size = var.k8s_common.disk_size
-  bridgename = var.k8s_common.bridgename
-  iso_path = var.k8s_common.iso_path
-  volume_format = var.k8s_common.volume_format
-  interface = var.k8s_common.interface
-
-  # Required provider configuration
-  providers = {
-    libvirt = libvirt.host1
-  }
-}
-

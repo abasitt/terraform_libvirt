@@ -1,144 +1,244 @@
-variable "cluster_name" {
+variable "os_img_url" {
+  description = "URL to the OS image"
   type        = string
-  description = "The name of the project"
-  default     =  "k8s"
+  default     = "https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img"
+}
+
+variable "base_volume_name" {
+  description = "Name of base OS image"
+  type        = string
+  default     = null
+}
+
+variable "base_pool_name" {
+  description = "Name of base OS image"
+  type        = string
+  default     = null
+}
+
+variable "additional_disk_ids" {
+  description = "List of volume ids"
+  type        = list(string)
+  default     = []
 }
 
 
-variable "vms_count" {
-  description = "Number of the VMs"
+variable "autostart" {
+  description = "Autostart the domain"
+  type        = bool
+  default     = true
+}
+
+variable "vm_count" {
+  description = "Number of VMs"
   type        = number
   default     = 1
 }
 
-
-variable "interface" {
-  type = string
-  default = "ens01"
+variable "index_start" {
+  description = "From where the indexig start"
+  type        = number
+  default     = 1
 }
 
-variable "bridgename" {
-  type = string
-  default = "virb0"
+variable "vm_hostname_prefix" {
+  description = "VM hostname prefix"
+  type        = string
+  default     = "vm"
 }
 
 variable "memory" {
-  description = "Memory for the VM"
-  type        = number
-  default     = 2048
+  description = "RAM in MB"
+  type        = string
+  default     = "1024"
+}
+
+variable "cpu_mode" {
+  description = "CPU mode"
+  type        = string
+  default     = "host-passthrough"
+}
+
+variable "xml_override" {
+  description = "With these variables you can: Enable hugepages; Set USB controllers; Attach USB devices"
+  type = object({
+    hugepages = bool
+    usb_controllers = list(object({
+      model = string
+    }))
+    usb_devices = list(object({
+      vendor  = string
+      product = string
+    }))
+  })
+  default = {
+
+    hugepages = false,
+
+    usb_controllers = [
+      {
+        model = "piix3-uhci"
+      }
+    ],
+
+    usb_devices = [
+      # {
+      #   vendor = "0x0123",
+      #   product = "0xabcd"
+      # }
+    ]
+  }
+
 }
 
 variable "vcpu" {
-  description = "Number of virtual CPUs for the VM"
+  description = "Number of vCPUs"
   type        = number
-  default     = 2
+  default     = 1
 }
 
-variable "autostart" {
-  description = "Enable autostart for a VM"
+variable "pool" {
+  description = "Storage pool name"
   type        = string
-  default     = "true"
+  default     = "default"
 }
 
-variable "ipv4address" {
-  type = string
-  default = "192.168.255.61"
-}
-
-variable "ipv4mask" {
-  type = string
-  default = "24"
-}
-
-variable "ipv4gw" {
-  type = string
-  default = ""
-}
-
-variable "ipv6address" {
-  type = string
-  default = "fc10::192:168:255:61"
-}
-
-variable "ipv6mask" {
-  type = string
-  default = "64" 
-}
-
-variable "ipv6gw" {
-  type = string
-  default = ""
-}
-
-variable "iso_path" {
-  description = "Path to the Ubuntu 22.04 ISO file"
-  type        = string
-  default     = "https://cloud-images.ubuntu.com/releases/jammy/release-20230302/ubuntu-22.04-server-cloudimg-amd64.img"
-#  default     = "/home/abasit/downloads/cloud-images/ubuntu-22-cloud-image/ubuntu22-disk.qcow2"
-}
-
-variable "distro_name" {
-  description = "Os distro name for base OS name"
-  type        = string
-  default     = "ubuntu"
-}
-
-variable "disk_size" {
-  description = "Path to the Ubuntu 22.04 ISO file"
+variable "system_volume" {
+  description = "System Volume size (GB)"
   type        = number
-  default     = 20
+  default     = 10
 }
 
-#
-#variable "macs" {
-#  type = list
-#  default = ["52:54:00:50:99:c5", "52:54:00:0e:87:be", "52:54:00:9d:90:38"]
-#}
-#
-variable "hostname" {
-  type = string
-  description = "hostname of the virtual machine"
-  default = "k8s-m1"
+variable "share_filesystem" {
+  type = object({
+    source   = string
+    target   = string
+    readonly = bool
+    mode     = string
+  })
+  default = {
+    source   = null
+    target   = null
+    readonly = false
+    mode     = null
+  }
 }
 
-variable "private_key" {
+variable "dhcp" {
+  description = "Use DHCP or Static IP settings"
+  type        = bool
+  default     = false
+}
+
+variable "bridge" {
+  description = "Bridge interface"
   type        = string
-  default     = "~/.ssh/terraform_vm"
-  description = "The path to your private key"
+  default     = "virbr0"
 }
 
-variable "public_key" {
-  description = "Public SSH key for the default user"
+variable "ip_address" {
+  description = "List of IP addresses"
+  type        = list(string)
+  default     = ["192.168.123.101"]
+}
+
+variable "ip_nameserver" {
+  description = "IP addresses of a nameserver"
   type        = string
-  default     = "~/.ssh/terraform_vm.pub"
+  default     = "192.168.123.1"
 }
 
-variable "pool_path" {
+variable "ip_subnetmask" {
+  description = "Subnet value of the IP address e.g./24"
   type        = string
-  description = "The path for the libvirt pool"
-  default     = "/var/lib/libvirt/images"
+  default     = "24"
 }
 
-
-# to be remove
-#variable "pool_name" {
-#
-#  type = string
-#
-#  default = "default"
-#}
-
-variable "volume_format" {
-  type = string
-  default = "qcow2"
+variable "ip_gateway" {
+  description = "IP addresses of a gateway"
+  type        = string
+  default     = "192.168.123.1"
 }
 
-variable "graphics_type" {
-  type = string
-  default = "spice"
+variable "ip6_address" {
+  description = "List of IPv6 addresses"
+  type        = list(string)
+  default     = ["fd01:192:168:123::101"]
 }
 
-variable "provision_script_path" {
-  type    = string
-  default = "path/to/provision_script.sh"
+variable "ip6_nameserver" {
+  description = "IP addresses of a nameserver"
+  type        = string
+  default     = "fd01:192:168:123::1"
+}
+
+variable "ip6_subnetmask" {
+  description = "Subnet value of the IP address e.g.64"
+  type        = string
+  default     = "64"
+}
+
+variable "ip6_gateway" {
+  description = "IP addresses of a gateway"
+  type        = string
+  default     = "fd01:192:168:123::1"
+}
+
+variable "root_passwd" {
+  description = "ssh admin user password"
+  type        = string
+  default     = ""
+}
+
+variable "ssh_admin" {
+  description = "Admin user with ssh access"
+  type        = string
+  default     = "ssh-admin"
+}
+
+variable "ssh_admin_passwd" {
+  description = "ssh admin user password"
+  type        = string
+  default     = ""
+}
+
+variable "ssh_keys" {
+  description = "List of public ssh keys"
+  type        = list(string)
+  default     = []
+}
+
+variable "local_admin" {
+  description = "Admin user without ssh access"
+  type        = string
+  default     = ""
+}
+
+variable "local_admin_passwd" {
+  description = "Local admin user password"
+  type        = string
+  default     = "password_example"
+}
+
+variable "time_zone" {
+  description = "Time Zone"
+  type        = string
+  default     = "UTC"
+}
+
+variable "ssh_private_key" {
+  description = "Private key for SSH connection test"
+  type        = string
+  default     = null
+}
+
+variable "runcmd" {
+  description = "Extra commands to be run with cloud init"
+  type        = list(string)
+  default = [
+    "[ systemctl, daemon-reload ]",
+    "[ systemctl, enable, qemu-guest-agent ]",
+    "[ systemctl, start, qemu-guest-agent ]",
+    "[ systemctl, restart, systemd-networkd ]"
+  ]
 }
