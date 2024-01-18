@@ -7,8 +7,10 @@ locals {
     iso_path = "/home/abasit/downloads/cloud-images/ubuntu-22-cloud-image/ubuntu22-disk.qcow2"
     ipv4mask = "24"
     ipv4gw   = "192.168.30.1"
+    ipv4ns   = "192.168.30.1"
     ipv6mask = "64"
     ipv6gw   = "2001:470:ee86:30::1"
+    ipv6ns   = "2001:470:ee86:30::1"
   }
   host1 = {
     pool1 = "zp_sda_sdb-images"
