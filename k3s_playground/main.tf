@@ -33,7 +33,7 @@ module "k8s_vm1" {
   source = "../modules/libvirt_vm"
   
   # Set input variables here
-  vm_hostname_prefix = "k3s_pg1"
+  vm_hostname_prefix = "k3s_pgm1"
   autostart          = true
   memory             = local.common.memory
   vcpu               = local.common.vcpu
@@ -67,7 +67,7 @@ module "k8s_vm2" {
   source = "../modules/libvirt_vm"
   
   # Set input variables here
-  vm_hostname_prefix = "k3s_pg2"
+  vm_hostname_prefix = "k3s_pgw1"
   autostart          = true
   memory             = local.common.memory
   vcpu               = local.common.vcpu
