@@ -19,15 +19,15 @@ terraform {
 # Define providers
 provider "libvirt" {
   alias = "host1"
-  uri   = "qemu+ssh://abasit@192.168.10.5/system?keyfile=/home/abasit/.ssh/id_rsa&no_verify=1"
+  uri   = "qemu+ssh://abasit@192.168.10.5/system?keyfile=/home/abasit/.ssh/id_ed25519&no_verify=1"
 }
 
 provider "libvirt" {
   alias = "host2"
-  uri   = "qemu+ssh://abasit@192.168.10.7/system?keyfile=/home/abasit/.ssh/id_rsa&no_verify=1"
+  uri   = "qemu+ssh://abasit@192.168.10.7/system?keyfile=/home/abasit/.ssh/id_ed25519&no_verify=1"
 }
 
 provider "libvirt" {
   alias = "host3"
-  uri   = "qemu+ssh://abasit@192.168.10.8/system?keyfile=/home/abasit/.ssh/id_rsa&no_verify=1"
+  uri   = "qemu+ssh://abasit@192.168.10.8/system?keyfile=/home/abasit/.ssh/id_ed25519&no_verify=1"
 }
