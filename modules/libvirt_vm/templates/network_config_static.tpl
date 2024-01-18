@@ -10,7 +10,6 @@ ethernets:
        addresses:
         - ${ip_nameserver}
         - 1.1.1.1
-        - 8.8.8.8
         - 2606:4700:4700::64  # Cloudflare dns64
         - 2001:4860:4860::64  # Google dns64
     routes:
