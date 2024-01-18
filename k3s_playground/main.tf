@@ -42,6 +42,8 @@ module "k8s_vm1" {
   ip6_address        = ["2001:470:ee86:30:192:168:30:21"]
   ip_gateway         = local.common.ipv4gw
   ip6_gateway        = local.common.ipv6gw
+  ip_nameserver      = local.common.ipv4ns
+  ip6_nameserver     = local.common.ipv6ns
   bridge             = local.common.bridgename
   pool               = local.host1.pool1
   system_volume      = local.common.disk_size
@@ -74,6 +76,8 @@ module "k8s_vm2" {
   ip6_address        = ["2001:470:ee86:30:192:168:30:22"]
   ip_gateway         = local.common.ipv4gw
   ip6_gateway        = local.common.ipv6gw
+  ip_nameserver      = local.common.ipv4ns
+  ip6_nameserver     = local.common.ipv6ns
   bridge             = local.common.bridgename
   pool               = local.host2.pool1
   system_volume      = local.common.disk_size
