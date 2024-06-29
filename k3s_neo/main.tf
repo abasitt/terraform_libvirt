@@ -33,7 +33,7 @@ module "k8s_vm1" {
   source = "../modules/libvirt_vm"
   
   # Set input variables here
-  vm_hostname_prefix = "k3s_metalm1"
+  vm_hostname_prefix = "k3sneo_m1"
   autostart          = true
   memory             = local.common.memory
   vcpu               = local.common.vcpu
@@ -45,7 +45,7 @@ module "k8s_vm1" {
   ip_nameserver      = local.common.ipv4ns
   ip6_nameserver     = local.common.ipv6ns
   bridge             = local.common.bridgename
-  pool               = local.host1.pool4
+  pool               = local.host1.pool1
   system_volume      = local.common.disk_size
   ssh_admin          = "k8s"
   ssh_admin_passwd   = "$6$rounds=4096$hSjO/nCBqa/ottYL$mg7Z4dlx6FR0Tpy1NOn.cWJ9926sfr0bV9V/gVwNUIyKHU9nHsYhqpbtaQjLEjuANW0BMRUiTiJe7PjAV4eER1"
@@ -59,5 +59,38 @@ module "k8s_vm1" {
   # Required provider configuration
   providers = {
     libvirt = libvirt.host1
+  }
+}
+
+module "k8s_vm1" {
+  source = "../modules/libvirt_vm"
+  
+  # Set input variables here
+  vm_hostname_prefix = "k3sneo_w1"
+  autostart          = true
+  memory             = local.common.memory
+  vcpu               = local.common.vcpu
+  dhcp               = false
+  ip_address         = ["192.168.30.46"]
+  ip6_address        = ["2001:470:ee86:30:192:168:30:46"]
+  ip_gateway         = local.common.ipv4gw
+  ip6_gateway        = local.common.ipv6gw
+  ip_nameserver      = local.common.ipv4ns
+  ip6_nameserver     = local.common.ipv6ns
+  bridge             = local.common.bridgename
+  pool               = local.host2.pool1
+  system_volume      = local.common.disk_size
+  ssh_admin          = "k8s"
+  ssh_admin_passwd   = "$6$rounds=4096$hSjO/nCBqa/ottYL$mg7Z4dlx6FR0Tpy1NOn.cWJ9926sfr0bV9V/gVwNUIyKHU9nHsYhqpbtaQjLEjuANW0BMRUiTiJe7PjAV4eER1"
+  root_passwd        = "$6$rounds=4096$hSjO/nCBqa/ottYL$mg7Z4dlx6FR0Tpy1NOn.cWJ9926sfr0bV9V/gVwNUIyKHU9nHsYhqpbtaQjLEjuANW0BMRUiTiJe7PjAV4eER1"
+  ssh_private_key    = "~/.ssh/terraform_vm"
+  ssh_keys    = [
+    chomp(file("~/.ssh/terraform_vm.pub"))
+    ]
+  os_img_url         = "file:///home/abasit/downloads/iso/jammy-server-cloudimg-amd64.img"
+
+  # Required provider configuration
+  providers = {
+    libvirt = libvirt.host2
   }
 }
