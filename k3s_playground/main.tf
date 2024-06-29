@@ -29,7 +29,7 @@ locals {
 }
 
 
-module "k8s_vm1" {
+module "k3s_pgm1" {
   source = "../modules/libvirt_vm"
   
   # Set input variables here
@@ -63,7 +63,7 @@ module "k8s_vm1" {
 }
 
 
-module "k8s_vm2" {
+module "k3s_pgw1" {
   source = "../modules/libvirt_vm"
   
   # Set input variables here
