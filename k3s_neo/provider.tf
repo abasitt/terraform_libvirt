@@ -4,7 +4,7 @@ terraform {
     organization = "abasit"
 
     workspaces {
-      name = "home-libvirt"
+      name = "k3sneo-libvirt"
     }
   }
   required_providers {
