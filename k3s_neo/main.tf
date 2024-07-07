@@ -13,27 +13,24 @@ locals {
     ipv6ns   = "2001:470:ee86:30::1"
   }
   host1 = {
-    pool1 = "zp_sda_sdb-images"
-    pool2 = "zp_sda_sdb-images-critical" # pool with zfs level sync enabled between host1 and host2
+    pool1 = "default"
+    pool2 = "zp_sda_sdb-images"
     pool3 = "zp_nvmpci1-images" # pool on nvme disk
-    pool4 = "zp_nvmpci1-images-critical"
-    pool5 = "default"
   }
   host2 = {
-    pool1 = "zp_hdd01-images"
-    pool2 = "zp_hdd01-images-critical"
+    pool1 = "default"
+    pool2 = "zp_hdd01-images"
     pool3 = "zp_ssd01-images"
-    pool4 = "zp_ssd01-images-critical"
-    pool5 = "default"
+    
   }
 }
 
 
-module "k3sneo_m1" {
+module "k8sneo_m1" {
   source = "../modules/libvirt_vm"
   
   # Set input variables here
-  vm_hostname_prefix = "k3sneo_m1"
+  vm_hostname_prefix = "k8sneo_m1"
   autostart          = true
   memory             = local.common.memory
   vcpu               = local.common.vcpu
@@ -45,7 +42,7 @@ module "k3sneo_m1" {
   ip_nameserver      = local.common.ipv4ns
   ip6_nameserver     = local.common.ipv6ns
   bridge             = local.common.bridgename
-  pool               = local.host1.pool1
+  pool               = local.host1.pool2
   system_volume      = local.common.disk_size
   ssh_admin          = "k8s"
   ssh_admin_passwd   = "$6$rounds=4096$hSjO/nCBqa/ottYL$mg7Z4dlx6FR0Tpy1NOn.cWJ9926sfr0bV9V/gVwNUIyKHU9nHsYhqpbtaQjLEjuANW0BMRUiTiJe7PjAV4eER1"
@@ -62,11 +59,11 @@ module "k3sneo_m1" {
   }
 }
 
-module "k3sneo_w1" {
+module "k8sneo_w1" {
   source = "../modules/libvirt_vm"
   
   # Set input variables here
-  vm_hostname_prefix = "k3sneo_w1"
+  vm_hostname_prefix = "k8sneo_w1"
   autostart          = true
   memory             = local.common.memory
   vcpu               = local.common.vcpu
@@ -79,6 +76,39 @@ module "k3sneo_w1" {
   ip6_nameserver     = local.common.ipv6ns
   bridge             = local.common.bridgename
   pool               = local.host2.pool1
+  system_volume      = local.common.disk_size
+  ssh_admin          = "k8s"
+  ssh_admin_passwd   = "$6$rounds=4096$hSjO/nCBqa/ottYL$mg7Z4dlx6FR0Tpy1NOn.cWJ9926sfr0bV9V/gVwNUIyKHU9nHsYhqpbtaQjLEjuANW0BMRUiTiJe7PjAV4eER1"
+  root_passwd        = "$6$rounds=4096$hSjO/nCBqa/ottYL$mg7Z4dlx6FR0Tpy1NOn.cWJ9926sfr0bV9V/gVwNUIyKHU9nHsYhqpbtaQjLEjuANW0BMRUiTiJe7PjAV4eER1"
+  ssh_private_key    = "~/.ssh/terraform_vm"
+  ssh_keys    = [
+    chomp(file("~/.ssh/terraform_vm.pub"))
+    ]
+  os_img_url         = "file:///home/abasit/downloads/iso/jammy-server-cloudimg-amd64.img"
+
+  # Required provider configuration
+  providers = {
+    libvirt = libvirt.host2
+  }
+}
+
+module "k8sneo_w2" {
+  source = "../modules/libvirt_vm"
+  
+  # Set input variables here
+  vm_hostname_prefix = "k8sneo_w2"
+  autostart          = true
+  memory             = local.common.memory
+  vcpu               = local.common.vcpu
+  dhcp               = false
+  ip_address         = ["192.168.30.47"]
+  ip6_address        = ["2001:470:ee86:30:192:168:30:47"]
+  ip_gateway         = local.common.ipv4gw
+  ip6_gateway        = local.common.ipv6gw
+  ip_nameserver      = local.common.ipv4ns
+  ip6_nameserver     = local.common.ipv6ns
+  bridge             = local.common.bridgename
+  pool               = local.host2.pool2
   system_volume      = local.common.disk_size
   ssh_admin          = "k8s"
   ssh_admin_passwd   = "$6$rounds=4096$hSjO/nCBqa/ottYL$mg7Z4dlx6FR0Tpy1NOn.cWJ9926sfr0bV9V/gVwNUIyKHU9nHsYhqpbtaQjLEjuANW0BMRUiTiJe7PjAV4eER1"
