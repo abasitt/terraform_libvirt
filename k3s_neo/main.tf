@@ -5,6 +5,7 @@ locals {
     disk_size = 250
     bridgename = "br30"
     iso_path = "/home/abasit/downloads/cloud-images/ubuntu-22-cloud-image/ubuntu22-disk.qcow2"
+    iso_url  = "file:///home/abasit/downloads/iso/noble-server-cloudimg-amd64.img"
     ipv4mask = "24"
     ipv4gw   = "192.168.30.1"
     ipv4ns   = "192.168.30.1"
@@ -51,7 +52,7 @@ module "k8sneo_m1" {
   ssh_keys    = [
     chomp(file("~/.ssh/terraform_vm.pub"))
     ]
-  os_img_url         = "file:///home/abasit/downloads/iso/jammy-server-cloudimg-amd64.img"
+  os_img_url         = local.common.iso_url
 
   # Required provider configuration
   providers = {
@@ -59,11 +60,11 @@ module "k8sneo_m1" {
   }
 }
 
-module "k8sneo_w1" {
+module "k8sneo_m2" {
   source = "../modules/libvirt_vm"
   
   # Set input variables here
-  vm_hostname_prefix = "k8sneo_w1"
+  vm_hostname_prefix = "k8sneo_m2"
   autostart          = true
   memory             = local.common.memory
   vcpu               = local.common.vcpu
@@ -84,7 +85,7 @@ module "k8sneo_w1" {
   ssh_keys    = [
     chomp(file("~/.ssh/terraform_vm.pub"))
     ]
-  os_img_url         = "file:///home/abasit/downloads/iso/jammy-server-cloudimg-amd64.img"
+  os_img_url         = local.common.iso_url
 
   # Required provider configuration
   providers = {
@@ -92,11 +93,11 @@ module "k8sneo_w1" {
   }
 }
 
-module "k8sneo_w2" {
+module "k8sneo_m3" {
   source = "../modules/libvirt_vm"
   
   # Set input variables here
-  vm_hostname_prefix = "k8sneo_w2"
+  vm_hostname_prefix = "k8sneo_m3"
   autostart          = true
   memory             = local.common.memory
   vcpu               = local.common.vcpu
@@ -117,7 +118,7 @@ module "k8sneo_w2" {
   ssh_keys    = [
     chomp(file("~/.ssh/terraform_vm.pub"))
     ]
-  os_img_url         = "file:///home/abasit/downloads/iso/jammy-server-cloudimg-amd64.img"
+  os_img_url         = local.common.iso_url
 
   # Required provider configuration
   providers = {
