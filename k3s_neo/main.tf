@@ -69,8 +69,8 @@ module "k8sneo_m2" {
   memory             = local.common.memory
   vcpu               = local.common.vcpu
   dhcp               = false
-  ip_address         = ["192.168.30.46"]
-  ip6_address        = ["2001:470:ee86:30:192:168:30:46"]
+  ip_address         = ["192.168.30.42"]
+  ip6_address        = ["2001:470:ee86:30:192:168:30:42"]
   ip_gateway         = local.common.ipv4gw
   ip6_gateway        = local.common.ipv6gw
   ip_nameserver      = local.common.ipv4ns
@@ -102,8 +102,8 @@ module "k8sneo_m3" {
   memory             = local.common.memory
   vcpu               = local.common.vcpu
   dhcp               = false
-  ip_address         = ["192.168.30.47"]
-  ip6_address        = ["2001:470:ee86:30:192:168:30:47"]
+  ip_address         = ["192.168.30.43"]
+  ip6_address        = ["2001:470:ee86:30:192:168:30:43"]
   ip_gateway         = local.common.ipv4gw
   ip6_gateway        = local.common.ipv6gw
   ip_nameserver      = local.common.ipv4ns
