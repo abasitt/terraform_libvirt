@@ -36,8 +36,8 @@ module "k8sneo_m1" {
   memory             = local.common.memory
   vcpu               = local.common.vcpu
   dhcp               = false
-  ip_address         = ["192.168.30.41"]
-  ip6_address        = ["2001:470:ee86:30:192:168:30:41"]
+  ip_address         = ["192.168.30.26"]
+  ip6_address        = ["2001:470:ee86:30:192:168:30:26"]
   ip_gateway         = local.common.ipv4gw
   ip6_gateway        = local.common.ipv6gw
   ip_nameserver      = local.common.ipv4ns
@@ -69,8 +69,8 @@ module "k8sneo_w1" {
   memory             = local.common.memory
   vcpu               = local.common.vcpu
   dhcp               = false
-  ip_address         = ["192.168.30.46"]
-  ip6_address        = ["2001:470:ee86:30:192:168:30:46"]
+  ip_address         = ["192.168.30.29"]
+  ip6_address        = ["2001:470:ee86:30:192:168:30:29"]
   ip_gateway         = local.common.ipv4gw
   ip6_gateway        = local.common.ipv6gw
   ip_nameserver      = local.common.ipv4ns
@@ -102,8 +102,8 @@ module "k8sneo_m2" {
   memory             = local.common.memory
   vcpu               = local.common.vcpu
   dhcp               = false
-  ip_address         = ["192.168.30.42"]
-  ip6_address        = ["2001:470:ee86:30:192:168:30:42"]
+  ip_address         = ["192.168.30.27"]
+  ip6_address        = ["2001:470:ee86:30:192:168:30:27"]
   ip_gateway         = local.common.ipv4gw
   ip6_gateway        = local.common.ipv6gw
   ip_nameserver      = local.common.ipv4ns
@@ -135,8 +135,8 @@ module "k8sneo_m3" {
   memory             = local.common.memory
   vcpu               = local.common.vcpu
   dhcp               = false
-  ip_address         = ["192.168.30.43"]
-  ip6_address        = ["2001:470:ee86:30:192:168:30:43"]
+  ip_address         = ["192.168.30.28"]
+  ip6_address        = ["2001:470:ee86:30:192:168:30:28"]
   ip_gateway         = local.common.ipv4gw
   ip6_gateway        = local.common.ipv6gw
   ip_nameserver      = local.common.ipv4ns
