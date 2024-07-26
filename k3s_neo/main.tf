@@ -5,7 +5,7 @@ locals {
     disk_size = 250
     bridgename = "br30"
     iso_path = "/home/abasit/downloads/cloud-images/ubuntu-22-cloud-image/ubuntu22-disk.qcow2"
-    iso_url  = "file:///home/abasit/downloads/iso/noble-server-cloudimg-amd64.img"
+    iso_url  = "file:///home/abasit/downloads/iso/jammy-server-cloudimg-amd64.img"
     ipv4mask = "24"
     ipv4gw   = "192.168.30.1"
     ipv4ns   = "192.168.30.1"
