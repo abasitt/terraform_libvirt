@@ -43,7 +43,7 @@ module "k8sneo_m1" {
   ip_nameserver      = local.common.ipv4ns
   ip6_nameserver     = local.common.ipv6ns
   bridge             = local.common.bridgename
-  pool               = local.host1.pool2
+  pool               = local.host1.pool1
   system_volume      = local.common.disk_size
   ssh_admin          = "k8s"
   ssh_admin_passwd   = "$6$rounds=4096$hSjO/nCBqa/ottYL$mg7Z4dlx6FR0Tpy1NOn.cWJ9926sfr0bV9V/gVwNUIyKHU9nHsYhqpbtaQjLEjuANW0BMRUiTiJe7PjAV4eER1"
@@ -76,7 +76,7 @@ module "k8sneo_w1" {
   ip_nameserver      = local.common.ipv4ns
   ip6_nameserver     = local.common.ipv6ns
   bridge             = local.common.bridgename
-  pool               = local.host1.pool2
+  pool               = local.host2.pool2
   system_volume      = local.common.disk_size
   ssh_admin          = "k8s"
   ssh_admin_passwd   = "$6$rounds=4096$hSjO/nCBqa/ottYL$mg7Z4dlx6FR0Tpy1NOn.cWJ9926sfr0bV9V/gVwNUIyKHU9nHsYhqpbtaQjLEjuANW0BMRUiTiJe7PjAV4eER1"
