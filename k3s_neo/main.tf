@@ -60,38 +60,38 @@ module "k8sneo_m1" {
   }
 }
 
-module "k8sneo_w1" {
-  source = "../modules/libvirt_vm"
-  
-  # Set input variables here
-  vm_hostname_prefix = "k8sneo_w1"
-  autostart          = true
-  memory             = local.common.memory
-  vcpu               = local.common.vcpu
-  dhcp               = false
-  ip_address         = ["192.168.30.29"]
-  ip6_address        = ["2001:470:ee86:30:192:168:30:29"]
-  ip_gateway         = local.common.ipv4gw
-  ip6_gateway        = local.common.ipv6gw
-  ip_nameserver      = local.common.ipv4ns
-  ip6_nameserver     = local.common.ipv6ns
-  bridge             = local.common.bridgename
-  pool               = local.host2.pool2
-  system_volume      = local.common.disk_size
-  ssh_admin          = "k8s"
-  ssh_admin_passwd   = "$6$rounds=4096$hSjO/nCBqa/ottYL$mg7Z4dlx6FR0Tpy1NOn.cWJ9926sfr0bV9V/gVwNUIyKHU9nHsYhqpbtaQjLEjuANW0BMRUiTiJe7PjAV4eER1"
-  root_passwd        = "$6$rounds=4096$hSjO/nCBqa/ottYL$mg7Z4dlx6FR0Tpy1NOn.cWJ9926sfr0bV9V/gVwNUIyKHU9nHsYhqpbtaQjLEjuANW0BMRUiTiJe7PjAV4eER1"
-  ssh_private_key    = "~/.ssh/terraform_vm"
-  ssh_keys    = [
-    chomp(file("~/.ssh/terraform_vm.pub"))
-    ]
-  os_img_url         = local.common.iso_url
-
-  # Required provider configuration
-  providers = {
-    libvirt = libvirt.host2
-  }
-}
+#module "k8sneo_w1" {
+#  source = "../modules/libvirt_vm"
+#  
+#  # Set input variables here
+#  vm_hostname_prefix = "k8sneo_w1"
+#  autostart          = true
+#  memory             = local.common.memory
+#  vcpu               = local.common.vcpu
+#  dhcp               = false
+#  ip_address         = ["192.168.30.29"]
+#  ip6_address        = ["2001:470:ee86:30:192:168:30:29"]
+#  ip_gateway         = local.common.ipv4gw
+#  ip6_gateway        = local.common.ipv6gw
+#  ip_nameserver      = local.common.ipv4ns
+#  ip6_nameserver     = local.common.ipv6ns
+#  bridge             = local.common.bridgename
+#  pool               = local.host2.pool2
+#  system_volume      = local.common.disk_size
+#  ssh_admin          = "k8s"
+#  ssh_admin_passwd   = "$6$rounds=4096$hSjO/nCBqa/ottYL$mg7Z4dlx6FR0Tpy1NOn.cWJ9926sfr0bV9V/gVwNUIyKHU9nHsYhqpbtaQjLEjuANW0BMRUiTiJe7PjAV4eER1"
+#  root_passwd        = "$6$rounds=4096$hSjO/nCBqa/ottYL$mg7Z4dlx6FR0Tpy1NOn.cWJ9926sfr0bV9V/gVwNUIyKHU9nHsYhqpbtaQjLEjuANW0BMRUiTiJe7PjAV4eER1"
+#  ssh_private_key    = "~/.ssh/terraform_vm"
+#  ssh_keys    = [
+#    chomp(file("~/.ssh/terraform_vm.pub"))
+#    ]
+#  os_img_url         = local.common.iso_url
+#
+#  # Required provider configuration
+#  providers = {
+#    libvirt = libvirt.host2
+#  }
+#}
 
 #module "k8sneo_m2" {
 #  source = "../modules/libvirt_vm"
